@@ -1,4 +1,4 @@
-from ller import *
+from ller import LLER, LocallyLinearEmbedding
 from mpl_toolkits.mplot3d import Axes3D
 from optparse import OptionParser
 from sklearn.datasets import make_swiss_roll
@@ -6,24 +6,23 @@ import matplotlib.pyplot as plt
 
 
 def demo(k):
-    X,t = make_swiss_roll(noise=1)
+    X, t = make_swiss_roll(noise=1)
 
-    lle = LocallyLinearEmbedding(n_components=2,n_neighbors=k)
+    lle = LocallyLinearEmbedding(n_components=2, n_neighbors=k)
     lle_X = lle.fit_transform(X)
 
-    ller = LLER(n_components=2,n_neighbors=k)
-    ller_X = ller.fit_transform(X,t)
+    ller = LLER(n_components=2, n_neighbors=k)
+    ller_X = ller.fit_transform(X, t)
 
-    fig = plt.figure(figsize=plt.figaspect(0.33))
-    ax = fig.add_subplot(1, 3, 1, projection='3d')
-    ax.scatter(X[:,0],X[:,1],X[:,2],c=t,s=50)
-    ax.set_title('Swiss Roll')
-    ax = fig.add_subplot(1, 3, 2)
-    ax.scatter(lle_X[:,0],lle_X[:,1],c=t,s=50)
-    ax.set_title('LLE Embedding')
-    ax = fig.add_subplot(1, 3, 3)
-    ax.scatter(ller_X[:,0],ller_X[:,1],c=t,s=50)
-    ax.set_title('LLER Embedding')
+    _, axes = plt.subplots(nrows=1, ncols=3, figsize=plt.figaspect(0.33))
+    axes[0].set_axis_off()
+    axes[0] = plt.subplot(131, projection='3d')
+    axes[0].scatter(*X.T, c=t, s=50)
+    axes[0].set_title('Swiss Roll')
+    axes[1].scatter(*lle_X.T, c=t, s=50)
+    axes[1].set_title('LLE Embedding')
+    axes[2].scatter(*ller_X.T, c=t, s=50)
+    axes[2].set_title('LLER Embedding')
     plt.show()
 
 
@@ -33,4 +32,3 @@ if __name__ == "__main__":
                   help='# of neighbors for LLE & LLER [7]')
     opts, args = op.parse_args()
     demo(opts.n_neighbors)
-
