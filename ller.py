@@ -1,7 +1,7 @@
 '''Locally Linear Embedding for Regression'''
 
 import numpy as np
-from scipy.sparse import eye, csr_matrix
+from scipy.sparse import eye as speye
 from scipy.sparse.csgraph import laplacian
 from sklearn.manifold.locally_linear import (
     barycenter_kneighbors_graph, null_space, LocallyLinearEmbedding)
@@ -43,11 +43,11 @@ def ller(X, Y, n_neighbors, n_components, reg=1e-3, eigen_solver='auto',
         raise ValueError("unrecognized eigen_solver '%s'" % eigen_solver)
 
     if Y.ndim == 1:
-        Y = Y[:,None]
+        Y = Y[:, None]
 
     if gamma is None:
         dists = pairwise_distances(Y)
-        gamma = 1.0/np.median(dists)
+        gamma = 1.0 / np.median(dists)
 
     nbrs = NearestNeighbors(n_neighbors=n_neighbors + 1)
     nbrs.fit(X)
@@ -72,7 +72,7 @@ def ller(X, Y, n_neighbors, n_components, reg=1e-3, eigen_solver='auto',
         nbrs, n_neighbors=n_neighbors, reg=reg)
 
     if M_sparse:
-        M = eye(*W.shape, format=W.format) - W
+        M = speye(*W.shape, format=W.format) - W
         M = (M.T * M).tocsr()
     else:
         M = (W.T * W - W.T - W).toarray()
@@ -87,7 +87,7 @@ def ller(X, Y, n_neighbors, n_components, reg=1e-3, eigen_solver='auto',
                                       eigen_solver=eigen_solver, tol=tol,
                                       max_iter=max_iter,
                                       random_state=random_state)
-    ller_error = np.trace(np.dot(embedding.T,L).dot(embedding))
+    ller_error = np.trace(embedding.T.dot(L).dot(embedding))
     return embedding, lle_error, ller_error
 
 
@@ -96,7 +96,7 @@ class LLER(LocallyLinearEmbedding):
 
     def __init__(self, n_neighbors=5, n_components=2, reg=1E-3,
                  eigen_solver='auto', tol=1E-6, max_iter=100,
-                 neighbors_algorithm='auto', random_state=None, 
+                 neighbors_algorithm='auto', random_state=None,
                  mu=0.5, gamma=None):
         self.n_neighbors = n_neighbors
         self.n_components = n_components
@@ -154,3 +154,4 @@ def demo(k=7):
 
 if __name__ == "__main__":
     demo()
+
