@@ -1,7 +1,7 @@
 '''Locally Linear Embedding for Regression'''
 
 import numpy as np
-from scipy.sparse import eye, csr_matrix
+from scipy.sparse import eye as speye
 from scipy.sparse.csgraph import laplacian
 from sklearn.manifold.locally_linear import (
     barycenter_kneighbors_graph, null_space, LocallyLinearEmbedding)
@@ -72,7 +72,7 @@ def ller(X, Y, n_neighbors, n_components, reg=1e-3, eigen_solver='auto',
         nbrs, n_neighbors=n_neighbors, reg=reg)
 
     if M_sparse:
-        M = eye(*W.shape, format=W.format) - W
+        M = speye(*W.shape, format=W.format) - W
         M = (M.T * M).tocsr()
     else:
         M = (W.T * W - W.T - W).toarray()
