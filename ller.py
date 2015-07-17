@@ -9,8 +9,8 @@ from sklearn.metrics.pairwise import pairwise_distances, rbf_kernel
 from sklearn.neighbors import NearestNeighbors
 
 
-def ller(X, Y, n_neighbors, n_components, reg=1e-3, eigen_solver='auto',
-         tol=1e-6, max_iter=100, random_state=None, mu=0.5, gamma=None):
+def ller(X, Y, n_neighbors, n_components, mu=0.5, gamma=None, reg=1e-3,
+         eigen_solver='auto', tol=1e-6, max_iter=100, random_state=None)
     """
     Locally Linear Embedding for Regression (LLER)
 
@@ -28,6 +28,14 @@ def ller(X, Y, n_neighbors, n_components, reg=1e-3, eigen_solver='auto',
     n_components : int
         Number of dimensions for embedding.
 
+    mu : float, optional
+        Influence term for the Y part of the optimization.
+        (TODO: Tommy, write this better!)
+
+    gamma : float, optional
+        Scaling factor for RBF kernel on Y.
+        Defaults to the inverse of the median distance between rows of Y.
+
     Returns
     -------
     embedding : ndarray, 2-dimensional
@@ -37,7 +45,7 @@ def ller(X, Y, n_neighbors, n_components, reg=1e-3, eigen_solver='auto',
         The embedding error of X (for a fixed reconstruction matrix W)
 
     ller_error : float
-        The error from doing the thing...
+        The embedding error of X that takes Y into account.
     """
     if eigen_solver not in ('auto', 'arpack', 'dense'):
         raise ValueError("unrecognized eigen_solver '%s'" % eigen_solver)
