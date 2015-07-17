@@ -10,7 +10,7 @@ from sklearn.neighbors import NearestNeighbors
 
 
 def ller(X, Y, n_neighbors, n_components, mu=0.5, gamma=None, reg=1e-3,
-         eigen_solver='auto', tol=1e-6, max_iter=100, random_state=None)
+         eigen_solver='auto', tol=1e-6, max_iter=100, random_state=None):
     """
     Locally Linear Embedding for Regression (LLER)
 
@@ -29,8 +29,7 @@ def ller(X, Y, n_neighbors, n_components, mu=0.5, gamma=None, reg=1e-3,
         Number of dimensions for embedding.
 
     mu : float, optional
-        Influence term for the Y part of the optimization.
-        (TODO: Tommy, write this better!)
+        Influence of the Y-similarity penalty.
 
     gamma : float, optional
         Scaling factor for RBF kernel on Y.
