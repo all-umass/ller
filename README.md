@@ -3,9 +3,9 @@ Locally Linear Embedding for Regression
 
 Code for the Journal of Chemometrics 2015 paper "Manifold preprocessing for laser-induced breakdown spectroscopy under Mars conditions".
 
-Run the demo:
+Run the swiss roll demo:
 
-    python ller.py
+    python demo.py
 
 Dependencies:
 
