@@ -12,3 +12,7 @@ Dependencies:
  * [numpy](http://www.numpy.org/)
  * [scikit-learn](http://www.scikit-learn.org/)
  * [scipy](http://www.scipy.org/)
+
+If a '_string_to_bool' error occurs while running the demo, see:
+
+http://stackoverflow.com/questions/25383698/error-string-to-bool-in-mplot3d-workaround-found
